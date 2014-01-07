@@ -7,12 +7,17 @@ defmodule ElixirWebAssets.Supervisor do
 
   def init([]) do
     children = [
-      # Define workers and child supervisors to be supervised
-      # worker(ElixirWebAssets.Worker, [])
+      worker(ElixirWebAssets.AssetPipeline, [ asset_pipeline_config ])
     ]
-
-    # See http://elixir-lang.org/docs/stable/Supervisor.Behaviour.html
-    # for other strategies and supported options
     supervise(children, strategy: :one_for_one)
   end
+
+  defp asset_pipeline_config do
+    libs = Mix.project[:elixir_web_assets][:libs]
+    debug = Mix.project[:elixir_web_assets][:debug]
+
+    [ libs:  (if libs == nil, do: [], else: libs),
+      debug: (if debug == nil, do: false, else: debug) ]
+  end
+
 end
