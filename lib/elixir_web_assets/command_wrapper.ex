@@ -32,21 +32,44 @@ defmodule ElixirWebAssets.CommandWrapper do
 
   def stop(port), do: Port.close(port)
 
-  def set_script_path(port, path), do: exec_request(port, { :set_script_path, path })
+  def set_script_path(port, path) do
+    exec_request port, { :set_script_path, path }
+  end
 
-  def set_stylesheet_path(port, path), do: exec_request(port, { :set_stylesheet_path, path })
+  def set_stylesheet_path(port, path) do
+    exec_request port, { :set_stylesheet_path, path }
+  end
 
-  def append_javascript_path(port, path), do: exec_request(port, { :append_javascript_path, path })
+  def add_script_load_path(port, path) do
+    exec_request port, { :add_script_load_path, path }
+  end
 
-  def append_stylesheet_path(port, path), do: exec_request(port, { :append_stylesheet_path, path })
+  def add_stylesheet_load_path(port, path) do
+    exec_request port, { :add_stylesheet_load_path, path }
+  end
 
-  def get_files(port, path), do: exec_request(port, { :get_files, path })
+  def script_filenames(port, filename) do
+    exec_request port, { :script_filenames, filename }
+  end
 
-  def render_file(port, path), do: exec_request(port, { :render_file, path })
+  def script_digest_filename(port, filename) do
+    exec_request port, { :script_digest_filename, filename }
+  end
 
-  def render_bundle(port, path), do: exec_request(port, { :render_bundle, path })
+  def script_content(port, filename, options) do
+    exec_request port, { :script_content, [ filename, options ] }
+  end
+
+  def stylesheet_digest_filename(port, filename) do
+    exec_request port, { :stylesheet_digest_filename, filename }
+  end
+
+  def stylesheet_content(port, filename, options) do
+    exec_request port, { :stylesheet_content, [ filename, options ] }
+  end
 
   defp exec_request(port, request) do
+    IO.puts "exec_request: #{inspect request}"
     payload = Kernel.term_to_binary(request)
     Port.command(port, payload)
     receive do

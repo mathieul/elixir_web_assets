@@ -18,7 +18,7 @@ defmodule ElixirWebAssets.Supervisor do
       script_path: Keyword.get(config, :script_path, Path.expand("assets/javascripts")),
       stylesheet_path: Keyword.get(config, :stylesheet_path, Path.expand("assets/stylesheets")),
       libs: Keyword.get(config, :libs, []),
-      debug: Keyword.get(config, :debug, true)
+      debug: Keyword.get(config, :debug, false)
     ]
   end
 
