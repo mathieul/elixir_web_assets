@@ -2,8 +2,8 @@ defmodule ElixirWebAssets.CommandWrapper do
 
   def start(options // []) do
     port = open_port build_command(options)
-    paths = Keyword.get options, :paths, []
-    unless Enum.empty?(paths), do: append_paths(port, paths)
+    set_script_path port, Keyword.fetch!(options, :script_path)
+    set_stylesheet_path port, Keyword.fetch!(options, :stylesheet_path)
     port
   end
 
@@ -14,11 +14,8 @@ defmodule ElixirWebAssets.CommandWrapper do
       |> bitstring_to_list
 
     cmd = Keyword.get options, :command
-    if nil?(cmd) do
-      script_path = Path.expand('../../ruby/bin/asset_pipeline.rb', __DIR__)
-      cmd = 'bundle exec #{script_path}'
-    end
-    if Keyword.get(options, :debug, false), do: cmd = '#{cmd} -d'
+    if nil?(cmd), do: cmd = 'bundle exec web_assets.rb'
+    if Keyword.get(options, :debug, false), do: cmd = '#{cmd} --debug'
     cmd = if is_bitstring(cmd), do: bitstring_to_list(cmd), else: cmd
     unless Enum.empty?(libs), do: cmd = cmd ++ ' ' ++ libs
     cmd
@@ -35,7 +32,13 @@ defmodule ElixirWebAssets.CommandWrapper do
 
   def stop(port), do: Port.close(port)
 
-  def append_paths(port, paths), do: exec_request(port, { :append_paths, paths })
+  def set_script_path(port, path), do: exec_request(port, { :set_script_path, path })
+
+  def set_stylesheet_path(port, path), do: exec_request(port, { :set_stylesheet_path, path })
+
+  def append_javascript_path(port, path), do: exec_request(port, { :append_javascript_path, path })
+
+  def append_stylesheet_path(port, path), do: exec_request(port, { :append_stylesheet_path, path })
 
   def get_files(port, path), do: exec_request(port, { :get_files, path })
 

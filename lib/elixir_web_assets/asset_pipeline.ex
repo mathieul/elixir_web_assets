@@ -7,10 +7,7 @@ defmodule ElixirWebAssets.AssetPipeline do
   defrecordp :state_rec, received: [], port: nil
 
   definit options do
-    paths = %W[assets bower_components] |> Enum.map fn path ->
-      Path.expand path, File.cwd!
-    end
-    port = Keyword.merge(options, [ paths: paths ]) |> CommandWrapper.start
+    port = CommandWrapper.start options
     state_rec port: port
   end
 

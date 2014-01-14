@@ -13,11 +13,13 @@ defmodule ElixirWebAssets.Supervisor do
   end
 
   defp asset_pipeline_config do
-    libs = Mix.project[:elixir_web_assets][:libs]
-    debug = Mix.project[:elixir_web_assets][:debug]
-
-    [ libs:  (if libs == nil, do: [], else: libs),
-      debug: (if debug == nil, do: false, else: debug) ]
+    config = Mix.project[:elixir_web_assets] || Keyword.new
+    [
+      script_path: Keyword.get(config, :script_path, Path.expand("assets/javascripts")),
+      stylesheet_path: Keyword.get(config, :stylesheet_path, Path.expand("assets/stylesheets")),
+      libs: Keyword.get(config, :libs, []),
+      debug: Keyword.get(config, :debug, true)
+    ]
   end
 
 end
