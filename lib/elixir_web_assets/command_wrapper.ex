@@ -69,7 +69,6 @@ defmodule ElixirWebAssets.CommandWrapper do
   end
 
   defp exec_request(port, request) do
-    IO.puts "exec_request: #{inspect request}"
     payload = Kernel.term_to_binary(request)
     Port.command(port, payload)
     receive do
