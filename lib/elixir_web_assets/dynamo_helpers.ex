@@ -18,7 +18,7 @@ defmodule ElixirWebAssets.Helpers do
       path = path <> suffix
     end
     if Mix.env == :dev do
-      AssetPipeline.get_files(path)
+      AssetPipeline.script_filenames(path)
         |> Enum.map(&(renderer.(&1, "?body=1")))
         |> Enum.join("\n")
     else
