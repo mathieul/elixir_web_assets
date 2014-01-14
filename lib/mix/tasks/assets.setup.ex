@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.ElixirWebAssets.Setup do
+defmodule Mix.Tasks.Assets.Setup do
 
   use Mix.Task
 
@@ -30,7 +30,7 @@ defmodule Mix.Tasks.ElixirWebAssets.Setup do
   end
 
   defp ask_for_confirmation do
-    fn source, destination ->
+    fn destination, source ->
       IO.gets("Overwriting #{destination} by #{source}. Type y to confirm.") == "y"
     end
   end

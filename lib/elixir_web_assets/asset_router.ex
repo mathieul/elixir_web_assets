@@ -7,11 +7,11 @@ defmodule ElixirWebAssets.AssetRouter do
     conn.resp 200, content(path, conn.params[:body])
   end
 
-  defp content(path, body) do
+  defp content(filename, body) do
     if body do
-      ElixirWebAssets.AssetPipeline.render_file path
+      ElixirWebAssets.AssetPipeline.script_content filename, []
     else
-      ElixirWebAssets.AssetPipeline.render_bundle path
+      ElixirWebAssets.AssetPipeline.render_bundle filename, [bundle: true]
     end
   end
 
