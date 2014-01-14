@@ -24,7 +24,7 @@ defmodule Mix.Tasks.Assets.Setup do
     %w[assets/javascripts assets/stylesheets bower_components] |> Enum.each fn name ->
       File.mkdir_p! name
     end
-    %W[javascripts/application.js stylesheets/application.css] |> Enum.each fn path ->
+    %W[javascripts/application.js stylesheets/application.scss] |> Enum.each fn path ->
       File.cp "#{@template_path}/#{path}", "assets/#{path}", ask_for_confirmation
     end
   end
