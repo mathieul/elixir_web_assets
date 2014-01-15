@@ -11,7 +11,8 @@ defmodule ElixirWebAssets.AssetRouter do
 
   get "/javascripts/*" do
     bundle = !conn.params[:body]
-    content = AssetPipeline.script_content filename(conn), [bundle: bundle]
+    minify = !!conn.params[:min]
+    content = AssetPipeline.script_content filename(conn), [bundle: bundle, minify: minify]
     conn.resp 200, content
   end
 

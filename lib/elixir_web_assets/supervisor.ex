@@ -16,7 +16,9 @@ defmodule ElixirWebAssets.Supervisor do
     config = Mix.project[:elixir_web_assets] || Keyword.new
     [
       script_path: Keyword.get(config, :script_path, Path.expand("assets/javascripts")),
+      script_load_paths: Keyword.get(config, :script_load_paths, []),
       stylesheet_path: Keyword.get(config, :stylesheet_path, Path.expand("assets/stylesheets")),
+      stylesheet_load_paths: Keyword.get(config, :stylesheet_load_paths, []),
       libs: Keyword.get(config, :libs, []),
       debug: Keyword.get(config, :debug, false)
     ]
