@@ -28,12 +28,7 @@ defmodule ElixirWebAssets.CommandWrapper do
   end
 
   defp open_port(cmd) do
-    Port.open { :spawn, cmd }, [
-      { :packet, 4 },
-        :use_stdio,
-        :exit_status,
-        :binary
-      ]
+    Port.open { :spawn, cmd }, [ { :packet, 4 }, :exit_status, :binary ]
   end
 
   def stop(port), do: Port.close(port)
@@ -75,10 +70,10 @@ defmodule ElixirWebAssets.CommandWrapper do
   end
 
   defp exec_request(port, request) do
-    payload = Kernel.term_to_binary(request)
-    Port.command(port, payload)
+    payload = Kernel.term_to_binary request
+    Port.command port, payload
     receive do
-      { ^port, { :data, data } } -> binary_to_term(data)
+      { ^port, { :data, data } } -> binary_to_term data
     end
   end
 
