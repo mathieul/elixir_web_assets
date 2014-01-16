@@ -59,6 +59,7 @@ defmodule ElixirWebAssets.AssetPipeline do
       error -> set_and_reply state, { :error, error }
     end
   end
+  def script_content(filename), do: script_content(filename, [])
 
   defcall stylesheet_digest_filename(filename), state: state do
     case CommandWrapper.stylesheet_digest_filename(state_rec(state, :port), filename) do
@@ -73,6 +74,7 @@ defmodule ElixirWebAssets.AssetPipeline do
       error -> set_and_reply state, { :error, error }
     end
   end
+  def stylesheet_content(filename), do: stylesheet_content(filename, [])
 
   defcast stop, state: state do
     { :stop, :normal, state }

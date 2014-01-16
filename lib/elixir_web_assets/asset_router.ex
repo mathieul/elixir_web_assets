@@ -5,7 +5,7 @@ defmodule ElixirWebAssets.AssetRouter do
   alias ElixirWebAssets.AssetPipeline
 
   get "/stylesheets/*" do
-    content = AssetPipeline.stylesheet_content filename(conn), []
+    content = AssetPipeline.stylesheet_content filename(conn)
     conn.resp 200, content
   end
 
