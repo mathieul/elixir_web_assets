@@ -70,10 +70,10 @@ defmodule ElixirWebAssets.CommandWrapper do
   end
 
   defp exec_request(port, request) do
-    payload = Kernel.term_to_binary request
+    payload = :erlang.term_to_binary request
     Port.command port, payload
     receive do
-      { ^port, { :data, data } } -> binary_to_term data
+      { ^port, { :data, data } } -> :erlang.binary_to_term data
     end
   end
 
