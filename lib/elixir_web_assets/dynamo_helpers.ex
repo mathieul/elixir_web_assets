@@ -1,5 +1,7 @@
 defmodule ElixirWebAssets.Helpers do
 
+  alias ElixirWebAssets.AssetPipeline
+
   def stylesheet_link_tag(path, options // []) do
     full_path = asset_full_path path, ".css"
     if query = option_string options do
@@ -9,12 +11,14 @@ defmodule ElixirWebAssets.Helpers do
   end
 
   def javascript_include_tag(path, options // []) do
-    if Mix.env == :dev && nil?(options[:bundle]), do: options = Keyword.put(options, :bundle, false)
-    full_path = asset_full_path path, ".js"
-    if query = option_string options do
-      full_path = Enum.join [ full_path, query ], "?"
+    if Mix.env == :dev && nil?(options[:bundle]) do
+      options = Keyword.put(options, :bundle, false)
     end
-    %s[<script src="/assets/javascripts/#{full_path}"></script>]
+
+    script_files_for(path, options[:bundle])
+      |> Enum.map(fn file -> full_path_and_query(file, options) end)
+      |> Enum.map(&(%s[<script src="/assets/javascripts/#{&1}"></script>]))
+      |> Enum.join("\n")
   end
 
   defp asset_full_path(path, suffix) do
@@ -23,6 +27,18 @@ defmodule ElixirWebAssets.Helpers do
     else
       path <> suffix
     end
+  end
+
+  defp script_files_for(path, bundle) do
+    if bundle, do: [path], else: AssetPipeline.script_filenames(path)
+  end
+
+  def full_path_and_query(path, options) do
+    full_path = asset_full_path path, ".js"
+    if query = option_string options do
+      full_path = Enum.join [ full_path, query ], "?"
+    end
+    full_path
   end
 
   defp option_string(options) do
