@@ -1,6 +1,6 @@
 defmodule ElixirWebAssets.AssetPipeline do
 
-  use ExActor, export: :asset_pipeline
+  use ExActor.GenServer, export: :asset_pipeline
 
   alias ElixirWebAssets.CommandWrapper
 
