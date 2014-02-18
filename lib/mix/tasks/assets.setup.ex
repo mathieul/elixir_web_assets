@@ -13,7 +13,7 @@ defmodule Mix.Tasks.Assets.Setup do
 
   defp setup_bundler do
     Mix.shell.info "Setup Bundler."
-    %W[Gemfile Gemfile.lock] |> Enum.each fn name ->
+    ~W[Gemfile Gemfile.lock] |> Enum.each fn name ->
       File.cp "#{@template_path}/#{name}", name, ask_for_confirmation
     end
     Mix.shell.cmd "bundle install"
@@ -21,10 +21,10 @@ defmodule Mix.Tasks.Assets.Setup do
 
   defp setup_folders do
     Mix.shell.info "Create folders."
-    %w[assets/javascripts assets/stylesheets bower_components] |> Enum.each fn name ->
+    ~w[assets/javascripts assets/stylesheets bower_components] |> Enum.each fn name ->
       File.mkdir_p! name
     end
-    %W[javascripts/application.js stylesheets/application.scss] |> Enum.each fn path ->
+    ~W[javascripts/application.js stylesheets/application.scss] |> Enum.each fn path ->
       File.cp "#{@template_path}/#{path}", "assets/#{path}", ask_for_confirmation
     end
   end

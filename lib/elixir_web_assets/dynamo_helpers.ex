@@ -2,22 +2,22 @@ defmodule ElixirWebAssets.Helpers do
 
   alias ElixirWebAssets.AssetPipeline
 
-  def stylesheet_link_tag(path, options // []) do
+  def stylesheet_link_tag(path, options \\ []) do
     full_path = asset_full_path path, ".css"
     if query = option_string options do
       full_path = Enum.join [ full_path, query ], "?"
     end
-    %s[<link href="/assets/stylesheets/#{full_path}" media="all" rel="stylesheet" />]
+    ~s[<link href="/assets/stylesheets/#{full_path}" media="all" rel="stylesheet" />]
   end
 
-  def javascript_include_tag(path, options // []) do
+  def javascript_include_tag(path, options \\ []) do
     if Mix.env == :dev && nil?(options[:bundle]) do
       options = Keyword.put(options, :bundle, false)
     end
 
     script_files_for(path, options[:bundle])
       |> Enum.map(fn file -> full_path_and_query(file, options) end)
-      |> Enum.map(&(%s[<script src="/assets/javascripts/#{&1}"></script>]))
+      |> Enum.map(&(~s[<script src="/assets/javascripts/#{&1}"></script>]))
       |> Enum.join("\n")
   end
 
