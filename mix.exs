@@ -15,6 +15,7 @@ defmodule ElixirWebAssets.Mixfile do
 
   defp deps do
     [ { :exactor, github: "sasa1977/exactor" },
+      { :exjson, github: "guedes/exjson" },
       { :cowboy, github: "extend/cowboy" },
       { :dynamo, github: "dynamo/dynamo" } ]
   end

@@ -1,4 +1,5 @@
 defmodule ElixirWebAssets do
+
   use Application.Behaviour
 
   # See http://elixir-lang.org/docs/stable/Application.Behaviour.html
@@ -6,4 +7,5 @@ defmodule ElixirWebAssets do
   def start(_type, _args) do
     ElixirWebAssets.Supervisor.start_link
   end
+
 end

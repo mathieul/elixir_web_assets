@@ -2,5 +2,6 @@
   "cowlib": {:git, "git://github.com/extend/cowlib.git", "2e0fc55f71bfeb543fd2218abed85890ff1e3e82", [ref: "0.5.0"]},
   "dynamo": {:git, "git://github.com/dynamo/dynamo.git", "7e57d7353ea144c9baa7efab5c74d0752839a6bf", []},
   "exactor": {:git, "git://github.com/sasa1977/exactor.git", "f7f6bae7fead5e0e5525581d44311f803169fa4e", []},
+  "exjson": {:git, "git://github.com/guedes/exjson.git", "e668c8513f57ac078e5fa6985a26e9d457aaaf7c", []},
   "mime": {:git, "git://github.com/dynamo/mime.git", "7e56a3dd5692afcd39c9797ae2898c5841967098", []},
   "ranch": {:git, "git://github.com/extend/ranch.git", "5df1f222f94e08abdcab7084f5e13027143cc222", [ref: "0.9.0"]} ]

@@ -1,6 +1,6 @@
 defmodule ElixirWebAssets.CommandWrapper do
 
-  def start(options // []) do
+  def start(options \\ []) do
     port = open_port build_command(options)
     set_script_path port, Keyword.fetch!(options, :script_path)
     Keyword.fetch!(options, :script_load_paths) |> Enum.each fn path ->

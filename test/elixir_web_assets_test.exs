@@ -5,12 +5,13 @@ defmodule ElixirWebAssetsTest do
   alias ElixirWebAssets.AssetPipeline
 
   setup_all  do
-    AssetPipeline.append_path "test/fixtures/assets"
+    AssetPipeline.set_script_path "test/fixtures/assets/javascripts"
+    AssetPipeline.set_stylesheet_path "test/fixtures/assets/stylesheets"
     :ok
   end
 
   test "request static asset content in dev mode" do
-    assert AssetPipeline.render_bundle("javascripts/allo.js") == %s{"ze content";}
+    assert AssetPipeline.script_content("allo", []) == ~s{"ze content";\n}
   end
 
 end

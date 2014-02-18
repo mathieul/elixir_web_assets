@@ -6,10 +6,13 @@ defmodule ElixirWebAssets.Supervisor do
   end
 
   def init([]) do
-    children = [
-      worker(ElixirWebAssets.AssetPipeline, [ asset_pipeline_config ])
-    ]
+    children = [ worker(ElixirWebAssets.StaticManifest, []) ]
+    if Mix.env == :dev, do: children = [ asset_pipeline_worker | children ]
     supervise(children, strategy: :one_for_one)
+  end
+
+  defp asset_pipeline_worker do
+    worker ElixirWebAssets.AssetPipeline, [ asset_pipeline_config ]
   end
 
   defp asset_pipeline_config do
