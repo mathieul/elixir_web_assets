@@ -1,17 +1,37 @@
 defmodule ElixirWebAssets.Helpers do
 
   alias ElixirWebAssets.AssetPipeline
+  alias ElixirWebAssets.StaticManifest
 
-  def stylesheet_link_tag(path, options \\ []) do
+  def stylesheet_link_tag path, options \\ [] do
     full_path = asset_full_path path, ".css"
-    if query = option_string options do
-      full_path = Enum.join [ full_path, query ], "?"
+    if Mix.env == :dev do
+      dev_stylesheet_link_tag full_path, options
+    else
+      digest = StaticManifest.name_to_digest full_path
+      ~s[<link href="/assets/css/#{digest || path}" media="all" rel="stylesheet" />]
     end
-    ~s[<link href="/assets/stylesheets/#{full_path}" media="all" rel="stylesheet" />]
   end
 
-  def javascript_include_tag(path, options \\ []) do
-    if Mix.env == :dev && nil?(options[:bundle]) do
+  def dev_stylesheet_link_tag path, options do
+    if query = option_string options do
+      path = Enum.join [ path, query ], "?"
+    end
+    ~s[<link href="/assets/stylesheets/#{path}" media="all" rel="stylesheet" />]
+  end
+
+  def javascript_include_tag path, options \\ [] do
+    if Mix.env == :dev do
+      dev_javascript_include_tag path, options
+    else
+      full_path = asset_full_path path, ".js"
+      digest = StaticManifest.name_to_digest full_path
+      ~s[<script src="/assets/js/#{digest || path}"></script>]
+    end
+  end
+
+  defp dev_javascript_include_tag path, options do
+    if nil? options[:bundle] do
       options = Keyword.put(options, :bundle, false)
     end
 
